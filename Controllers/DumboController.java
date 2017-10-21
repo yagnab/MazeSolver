@@ -1,29 +1,26 @@
 import uk.ac.warwick.dcs.maze.logic.IRobot;
+import java.util.Random;
 
 public class DumboController
 {
 
-    public void controlRobot(IRobot robot) {
+    public void controlRobot(IRobot robot)
+    {
+        //array of directions
+        int[] absDirections = {IRobot.NORTH, IRobot.EAST, IRobot.SOUTH, IRobot.WEST};
+        int[] relDirections = {IRobot.LEFT, IRobot.RIGHT, IRobot.AHEAD, IRobot.BEHIND};
 
-        int randno;
-        int direction;
+        //pick a random direction
+        Random rng = new Random();
+        int rndNum = rng.nextInt();
 
-        // Select a random number
+        //if wall ahead, change direction until no wall is ahead
+        while(robot.look(relDirections[rndNum]) == IRobot.WALL)
+        {
+            rndNum = (rndNum + 1) % 3;
+        }
 
-        randno = (int) Math.round(Math.random()*3);
-
-        // Convert this to a direction
-
-        if (randno == 0)
-            direction = IRobot.LEFT;
-        else if (randno == 1)
-            direction = IRobot.RIGHT;
-        else if (randno == 2)
-            direction = IRobot.BEHIND;
-        else
-            direction = IRobot.AHEAD;
-
-        robot.face(direction);  /* Face the robot in this direction */
+        //face direction
+        robot.face(rndDirection);
     }
-
 }
